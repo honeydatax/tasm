@@ -1,0 +1,1 @@
+yasm --parser=TASM hello.asm -o hello.com
