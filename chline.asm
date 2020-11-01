@@ -12,7 +12,7 @@ loop3:
 	push ax
 	mov dx,0
 	mov cx,479
-	call hline
+	call clearhline
 	pop ax
 	pop bx
 	clc
