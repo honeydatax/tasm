@@ -19,6 +19,7 @@ loop3:
 	add bx,1
 	cmp bx,78
 	jb loop3 
+	mov bx,0
 	shl ah,1
 	cmp ah,16
 	jnz loop3
