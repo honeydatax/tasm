@@ -9,21 +9,34 @@ _start:
 	call colors
 	mov bx,40
 	mov dx,80
-	push byte 0011100b
-	push byte 0110110b
-	push byte 0110010b
-	push byte 1100011b
-	push byte 1111111b
-	push byte 1100011b
-	push byte 1100011b
-	push byte 1100011b
-	push word 4
+	mov bp,sp
+	push bp
+	push byte 0011100b ;19
+	push byte 0110110b ;18
+	push byte 0110010b ;17
+	push byte 1100011b ;16
+	push byte 1111111b ;15
+	push byte 1100011b ;14
+	push byte 1100011b ;13
+	push byte 1100011b ;12
+	push word 8;6 h
+	push bx;8 x
+	push dx;6 y
 	call picture
+	clc
+	add sp,14
+	clc
+	add sp,0
 	mov ah,0
 	call colors
 	call key
 	call cls
-	call exit
+	pop bp
+	cmp bp,sp
+	jnz exit
+	mov dx,hello
+	mov ah,9
+	int 21h
 exit:
 	xor ax,ax
 	int 21h
@@ -148,41 +161,41 @@ clearlines:
 	pop ds
 ret
 picture:
-	pop si
-	push bx
-	push dx
+	push ds
+	push bp
+	mov bp,sp
 	mov ax,80
 	xor dx,dx
 	xor cx,cx
-	pop bx
+	mov bx,[bp+6]
 	clc
 	mul bx
-	pop bx
+	mov bx,[bp+8]
 	clc
 	add ax,bx
 	mov bx,ax
-	pop cx
+	mov cx,[bp+10]
 	mov ax,ds
 	mov di,ax
 	mov ax,0a000h
 	mov ds,ax
 	mov al,0
+	clc 
+	add bp,11
+	clc 
+	add bp,cx
    picture1:
-	push ax
+	mov al,[bp]
 	ds
 	mov [bx],al
 	clc
 	add bx,80
-	ds
-	mov [bx],ah
-	clc
-	add bx,80
+	dec bp
 	dec cx
 	cmp cx,0
 	jnz picture1 
-	mov ax,di
-	mov ds,ax
-	push si
+	pop bp
+	pop ds
 ret
 paint:
 	push ds
@@ -221,4 +234,4 @@ print:
 ret
 
 
-hello db "hello world..........\000"
+hello db "hello world..........\000$$$"
