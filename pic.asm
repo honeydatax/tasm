@@ -7,36 +7,14 @@ _start:
 	call paint
 	mov ah,15
 	call colors
-	mov bx,40
+	mov cx,40
 	mov dx,80
-	mov bp,sp
-	push bp
-	push byte 0011100b ;19
-	push byte 0110110b ;18
-	push byte 0110010b ;17
-	push byte 1100011b ;16
-	push byte 1111111b ;15
-	push byte 1100011b ;14
-	push byte 1100011b ;13
-	push byte 1100011b ;12
-	push word 8;6 h
-	push bx;8 x
-	push dx;6 y
+	mov bx,ships
 	call picture
-	clc
-	add sp,14
-	clc
-	add sp,0
 	mov ah,0
 	call colors
 	call key
 	call cls
-	pop bp
-	cmp bp,sp
-	jnz exit
-	mov dx,hello
-	mov ah,9
-	int 21h
 exit:
 	xor ax,ax
 	int 21h
@@ -162,41 +140,40 @@ clearlines:
 ret
 picture:
 	push ds
-	push bp
-	mov bp,sp
+	push bx
+	push cx
+	push dx
 	mov ax,80
 	xor dx,dx
 	xor cx,cx
-	mov bx,[bp+6]
+	pop bx
 	clc
 	mul bx
-	mov bx,[bp+8]
+	pop bx
 	clc
 	add ax,bx
 	mov bx,ax
-	mov cx,[bp+10]
+	pop si
+	cs
+	mov cx,[si]
+	inc si
 	mov ax,ds
 	mov di,ax
 	mov ax,0a000h
 	mov ds,ax
-	mov al,0
-	clc 
-	add bp,11
-	clc 
-	add bp,cx
    picture1:
-	mov al,[bp]
+	cs
+	mov al,[si]
 	ds
 	mov [bx],al
 	clc
 	add bx,80
-	dec bp
+	inc si
 	dec cx
 	cmp cx,0
 	jnz picture1 
-	pop bp
 	pop ds
-ret
+ret 
 paint:
 	push ds
 	mov cx,65535
@@ -235,3 +212,12 @@ ret
 
 
 hello db "hello world..........\000$$$"
+ships dw 8
+db	00011100b 
+db	00110110b 
+db	00110110b 
+db	01100011b 
+db	01111111b 
+db	01100011b 
+db	01100011b 
+db	01100011b 
