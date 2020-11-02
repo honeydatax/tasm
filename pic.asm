@@ -5,18 +5,18 @@ _start:
 	mov ah,1
 	call colors
 	call paint
-	mov ah,2
+	mov ah,15
 	call colors
 	mov bx,40
 	mov dx,80
-	push byte 01000001b
-	push byte 01000010b
-	push byte 00100010b
-	push byte 00010100b
-	push byte 00010100b
-	push byte 00100010b
-	push byte 01000001b
-	push byte 01000001b
+	push byte 0011100b
+	push byte 0110110b
+	push byte 0110010b
+	push byte 1100011b
+	push byte 1111111b
+	push byte 1100011b
+	push byte 1100011b
+	push byte 1100011b
 	push word 4
 	call picture
 	mov ah,0
@@ -173,6 +173,7 @@ picture:
 	mov [bx],al
 	clc
 	add bx,80
+	ds
 	mov [bx],ah
 	clc
 	add bx,80
