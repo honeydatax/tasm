@@ -5,7 +5,7 @@ _start:
 	mov ah,1
 	call colors
 	call paint
-	mov ah,15
+	mov ah,14
 	call colors
 	mov cx,40
 	mov dx,80
